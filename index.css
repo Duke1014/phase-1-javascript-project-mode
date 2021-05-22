@@ -1,3 +1,38 @@
+
 body {
-    background: blue;
+    background: rgb(130, 190, 214);
+    color: #f700e3;
+    text-align: center;
+}
+  
+h1 {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+#grid {
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+#grid TR TD{
+    border:1px solid white;
+    background: #999999;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+}
+  
+#grid TR TD.clicked {
+      background: #333333;
+}
+  
+#grid TR TD.mine {
+      background: #FF0000;  
+      /* The plan is to make this the poop emoji eventually */
+}
+  
+button {
+    margin: 12px;
 }
