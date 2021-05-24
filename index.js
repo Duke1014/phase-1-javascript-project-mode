@@ -89,18 +89,14 @@ function checkLevelCompletion() {
 }
   
 function clickCell(cell) {
-    //Check if the end-user clicked on a mine
-    if (cell.getAttribute("data-mine")=="true") {
+    if (cell.getAttribute("data-mine")=="true") {   // check if mine was clicked
         revealMines();
         alert("Game Over");
-
     } else {
-        cell.className = "clicked";
-        //Count and display the number of adjacent mines
+        cell.className = "clicked";                 // count adjacent mines, in order to show the number when clicked
         let mineCount = 0;
         const cellRow = cell.parentNode.rowIndex;
         const cellCol = cell.cellIndex;
-        //alert(cellRow + " " + cellCol);
         for (let x = Math.max(cellRow - 1, 0); x <= Math.min(cellRow + 1, boardSize - 1); x++) {
             for(let y = Math.max(cellCol - 1, 0); y <= Math.min(cellCol + 1, boardSize - 1); y++) {
                 if (grid.rows[x].cells[y].getAttribute("data-mine")=="true") mineCount++;
@@ -111,11 +107,10 @@ function clickCell(cell) {
     if (mineCount == 0) {                        // we reveal all adjacent cells as they do not have a mine
         for (let x = Math.max(cellRow - 1, 0); x <= Math.min(cellRow + 1, boardSize - 1); x++) {
             for(let y = Math.max(cellCol - 1, 0); y <= Math.min(cellCol + 1, boardSize - 1); y++) {
-                //Recursive Call
-                if (grid.rows[x].cells[y].innerHTML == " ") clickCell(grid.rows[x].cells[y]);
+                if (grid.rows[x].cells[y].innerHTML == "") clickCell(grid.rows[x].cells[y]);
             }
         }
-      }
+    }
     return checkLevelCompletion();
     }
 }
