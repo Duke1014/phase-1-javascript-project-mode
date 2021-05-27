@@ -1,47 +1,47 @@
-const randomDogApi = "https://dog.ceo/api/breeds/image/random";     // this should appear when someone wins the game
-// const allDogsApi = "https://dog.ceo/api/breeds/list/all";           // dont know if I will use this yet...
+const randomDogApi = "https://dog.ceo/api/breeds/image/random";
 const dogImage = document.getElementById('dog')
-
-// MULTIPLE IMAGES FROM A BREED COLLECTION
-// https://dog.ceo/api/breed/hound/images/random/3
-
 
 // Display Stuff:
 // 1. populate a board with tiles/mines
 // 2. left click on tiles
     // a. Reveal tiles
-// 3. right click on tiles
-    // a. mark tiles
+// 3. right click on tiles - NOT YET IMPLEMENTED
+    // a. mark tiles - NOT YET IMPLEMENTED
 // 4. check for win/lose
 
-
-function appendDog () {     // this *should* show us a dog upon winning the game, or clicking 'I deserve a dog'
+function appendDog () {     // shows us a dog image
     fetch(randomDogApi)
     .then(res => res.json())
     .then(data => {
         dogImage.innerHTML = `<img src = "${data.message}" alt = "dog"/>`
     })
 }
-// function showMeADog(dog) {
-    
-//     doucment.getElementById('dog').innerHTML = `${dog.message}`
-// }
 
-document.addEventListener("DOMContentLoaded", function(){
-    document.querySelector("#start-game").addEventListener('click', startGame)  // when we click the "Start Game!" button, the grid should appear (see: function startGame() )
-    document.querySelector("#give-me-dog").addEventListener('click', appendDog)
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector("#start-game").addEventListener('click', startGame)  // 'Start Game!' button
+    document.querySelector("#give-me-dog").addEventListener('click', appendDog) // 'I deserve a dog.' button
 })
 
-let boardSize = 10;     // 
+let boardSize = 10;     
 let difficulty = 20;    // mine count
 
-function startGame() {
-    //generate grid based on chosen board size
+function startGame() {       // generate grid based on chosen board size
     const grid = document.getElementById("grid");
     grid.innerHTML = " ";
 
+    // let x = 0
+    // while(x < boardSize){
+    //     row = grid.insertRow(x)
+    //     let y = 0
+    //     while( y < boardSize){
+    //         // all the code in inner for loop
+    //         y++
+    //     }
+    //     x++
+    // }
+
     for (let x = 0; x < boardSize; x++) {
-        row = grid.insertRow(x);    // we're gonna make our grid out of cells, like excel/sheets
+        row = grid.insertRow(x);    // we make our grid out of cells
 
         for (let y = 0; y < boardSize; y++) {
             cell = row.insertCell(y);
@@ -54,10 +54,9 @@ function startGame() {
     }
     return addMines();                                              
 }
-  
 
 function addMines() {
-    for (let i = 0; i < difficulty; i++) {                          // adding mines randomly with Math.random
+    for (let i = 0; i < difficulty; i++) {                          
         const row = Math.floor(Math.random() * 10);
         const col = Math.floor(Math.random() * 10);
         const cell = grid.rows[row].cells[col];
@@ -69,7 +68,7 @@ function revealMines() {                                            // Highlight
     for (let x = 0; x < boardSize; x++) {
         for (let y = 0; y < boardSize; y++) {
             const cell = grid.rows[x].cells[y];
-            if (cell.getAttribute("data-mine") == "true") cell.className="mine";    // lets us change the appearance of mines within the cell in .css
+            if (cell.getAttribute("data-mine") == "true") cell.className = "mine";    
         }
     }
 }
@@ -78,7 +77,7 @@ function checkLevelCompletion() {
     let levelComplete = true;
     for (let x = 0; x < boardSize; x++) {
         for (let y = 0; y < boardSize; y++) {
-            if ((grid.rows[x].cells[y].getAttribute("data-mine")=="false") && (grid.rows[x].cells[y].innerHTML=="")) levelComplete=false;
+            if ((grid.rows[x].cells[y].getAttribute("data-mine") == "false") && (grid.rows[x].cells[y].innerHTML == "")) levelComplete = false;
         }
     }
     if (levelComplete) {
@@ -89,7 +88,7 @@ function checkLevelCompletion() {
 }
   
 function clickCell(cell) {
-    if (cell.getAttribute("data-mine")=="true") {   // check if mine was clicked
+    if (cell.getAttribute("data-mine") == "true") {   // check if mine was clicked
         revealMines();
         alert("Game Over");
     } else {
@@ -99,7 +98,7 @@ function clickCell(cell) {
         const cellCol = cell.cellIndex;
         for (let x = Math.max(cellRow - 1, 0); x <= Math.min(cellRow + 1, boardSize - 1); x++) {
             for(let y = Math.max(cellCol - 1, 0); y <= Math.min(cellCol + 1, boardSize - 1); y++) {
-                if (grid.rows[x].cells[y].getAttribute("data-mine")=="true") mineCount++;
+                if (grid.rows[x].cells[y].getAttribute("data-mine") == "true") mineCount++;
             }
         }
 
